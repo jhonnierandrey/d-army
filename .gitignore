@@ -1,3 +1,16 @@
 # Files/Directories to be ignored:
 
 .DS_Store
+
+# Ex
+/bin
+*.exe
+*.out
+*.app
+*.i*86
+*.x86_64
+*.hex
+
+#Tutos
+
+CS50/
