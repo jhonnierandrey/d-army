@@ -1,3 +1,5 @@
+// AS SOON https://www.typescriptlang.org/docs/handbook/basic-types.html
+
 // boolean 
 let isDone: boolean = false;
 

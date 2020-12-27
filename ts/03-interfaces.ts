@@ -1,3 +1,5 @@
+// AS SEEN ON https://www.typescriptlang.org/docs/handbook/interfaces.html
+
 // first interface
 interface LabeledValue {
     label : string;
