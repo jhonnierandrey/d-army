@@ -19,3 +19,7 @@ SELECT COUNT(*) FROM ratings WHERE rating = 10;
 SELECT * FROM genres WHERE show_id = (SELECT id FROM shows WHERE title = 'The Crown');
 -- SELECT name FROM people WHERE id IN  ...> (SELECT person_id FROM writers WHERE show_id = ...> (SELECT id FROM shows WHERE title = 'Arrested Development'));
 -- SELECT title FROM shows WHERE id IN (SELECT show_id FROM stars WHERE person_id = (SELECT id FROM people WHERE name = 'Allison Janney'));
+
+-- Activity 2
+
+SELECT * FROM crime_scene_reports WHERE month = 7 AND day = 28;
