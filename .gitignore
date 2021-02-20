@@ -1,6 +1,7 @@
 # Files/Directories to be ignored:
 
 .DS_Store
+.vscode
 
 # Ex
 /bin
