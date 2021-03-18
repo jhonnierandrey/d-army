@@ -5,6 +5,7 @@
 
 # Ex
 /bin
+python/algorithmic-trading-python
 *.exe
 *.out
 *.app
