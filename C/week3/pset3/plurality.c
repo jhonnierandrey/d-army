@@ -72,13 +72,13 @@ bool vote(string name)
     // else return false
     for (int i = 0; i < candidate_count; i++)
     {
-        if(strcmp(candidates[i].name, name) == 0)
+        if (strcmp(candidates[i].name, name) == 0)
         {
             candidates[i].votes++;
             return true;
         }
     }
-    
+
     return false;
 }
 
@@ -87,11 +87,11 @@ void print_winner(void)
 {
     // TODO
     // compare votes of all candidates
-        // order list of candidates based on votes
+    //      order list of candidates based on votes
     // print the winner/ latest candidate
 
     int winner_votes = 0;
-    
+
     for (int i = 0; i < candidate_count; i++)
     {
         if (candidates[i].votes > winner_votes)
@@ -109,4 +109,3 @@ void print_winner(void)
         }
     }
 }
-
