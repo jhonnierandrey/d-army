@@ -1,4 +1,4 @@
-// archivo de google docs original : https://docs.google.com/document/d/1NtpaNDxD6KHn7PYRUwNpE46LWRMBlCwDFKODrPHmYRo/edit
+// archivo de google docs original : https://docs.google.com/document/d/1tq7KkGEQnmfIGKRi0pX0mlrYQrgdlq0iqvgflK4JP6w/edit
 // video de quantum fracture : https://www.youtube.com/watch?v=DQ5qqHukkAc
 
 /*
