@@ -7,6 +7,15 @@ import random
 # Number of simluations to run
 N = 1000
 
+# complete the main fuction
+    # with csv.DictReader() read teams from csv file 
+    # store each team as a dictionary in a list of teams
+    # simulate N tournaments with the simulate_tournament function
+    # keep track of win counts in the counts dictionary
+# complete the simulate_tournament function
+    # use the simulate_round function, which accepts a list of teams and returns a list of winners
+    # repeatedly simulate rounds until one time is left
+    # return name of winning team
 
 def main():
 
@@ -16,9 +25,22 @@ def main():
 
     teams = []
     # TODO: Read teams into memory from file
+    with open(sys.argv[1], "r") as file:
+        reader = csv.DictReader(file)
+        for team in reader:
+            team["rating"] = int(team["rating"])
+            teams.append(team)
+
+    # print(teams)
 
     counts = {}
     # TODO: Simulate N tournaments and keep track of win counts
+    for i in range(N):
+        winner = simulate_tournament(teams)
+        if winner in counts:
+            counts[winner] += 1
+        else:
+            counts[winner] = 1
 
     # Print each team's chances of winning, according to simulation
     for team in sorted(counts, key=lambda team: counts[team], reverse=True):
@@ -50,7 +72,9 @@ def simulate_round(teams):
 def simulate_tournament(teams):
     """Simulate a tournament. Return name of winning team."""
     # TODO
-
+    while len(teams) > 1:
+        teams = simulate_round(teams)
+    return teams[0]["team"]
 
 if __name__ == "__main__":
     main()
