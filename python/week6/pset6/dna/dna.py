@@ -7,6 +7,7 @@ import sys
 # For each STR, compute the longest run of consecutive repeats in the DNA sequence.
 # Compare the STR counts against each row in the CSV file.
 
+
 def main():
     # check command-line arguments
     if len(sys.argv) != 3:
@@ -53,5 +54,6 @@ def main():
             sys.exit(1)
     
     print("No match")
+
 
 main()
