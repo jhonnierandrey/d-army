@@ -1,0 +1,62 @@
+* {
+    box-sizing: border-box;
+}
+
+body {
+    background-image: url('https://news.harvard.edu/wp-content/uploads/2020/03/Zoom_Background_002-1200x800.jpg');
+    background-repeat: no-repeat;
+    background-size: cover;
+    color: #000000;
+}
+
+nav {
+    padding: 1rem;
+    background-color: rgba(255, 255, 255, 0.685);
+    border-bottom-left-radius: 1rem;
+    border-bottom-right-radius: 1rem;
+}
+
+nav a {
+    color: #FF0000;
+}
+
+nav a:hover {
+    color: #0000FF;
+}
+
+.btn {
+    background-color: #808080;
+}
+
+.btn:hover {
+    background-color: #ff0000;
+}
+
+.jumbotron {
+    background-color: rgba(255, 255, 255, 0.685);
+    border-radius: 1rem;
+}
+
+.main-index {
+    background-color: rgba(255, 255, 255, 0.685);
+    border-radius: 1rem;
+    padding: 1rem;
+    text-align: justify;
+}
+
+.main-cat, .main-duck {
+    text-align: center;
+}
+
+.img-cat, .img-duck {
+    border-radius: 50%;
+    width: 250px;
+}
+
+#footer {
+    margin: 1rem;
+    background-color: rgba(255, 255, 255, 0.685);
+    border-radius: 1rem;
+    text-align: center;
+    color: #808080;
+}
