@@ -13,6 +13,7 @@ python/algorithmic-trading-python
 *.x86_64
 *.hex
 *.env
+*.db
 
 #Tutos
 
