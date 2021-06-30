@@ -50,7 +50,8 @@ def index():
     # get current user data
     current_user = db.execute('SELECT * FROM users WHERE id = ?', session["user_id"])
     # get current user stock
-    current_user_stocks = db.execute('SELECT symbol, name, SUM(shares) as shares, price, SUM(total) as total FROM trades WHERE user_id = ? GROUP BY name', session["user_id"])
+    current_user_stocks = db.execute(
+        'SELECT symbol, name, SUM(shares) as shares, price, SUM(total) as total FROM trades WHERE user_id = ? GROUP BY name', session["user_id"])
 
     portfolio_total = 0
 
@@ -58,9 +59,9 @@ def index():
     for row in current_user_stocks:
         # get current price for each stock
         updated_price = lookup(row['symbol'])
-        
+
         portfolio_total += updated_price['price'] * row['shares']
-        
+
         row['price'] = usd(updated_price['price'])
         row['total'] = usd(updated_price['price'] * row['shares'])
 
@@ -78,18 +79,22 @@ def buy():
     """Buy shares of stock"""
     if request.method == 'POST':
         # check user input for symbol
-        if not request.form.get('stock'):
+        if not request.form.get('symbol'):
             return apology('missing symbol', 400)
-        
-        if not lookup(request.form.get('stock')):
+
+        if not lookup(request.form.get('symbol')):
             return apology('invalid symbol', 400)
 
         # check user input for shares
         if not request.form.get('shares'):
             return apology('missing shares', 400)
 
+        # checks shares = positive int
+        elif not request.form.get('shares').isdigit() or int(request.form.get('shares')) < 0:
+            return apology('invalid shares', 400)
+
         # get stock current price:
-        symbol = lookup(request.form.get('stock'))
+        symbol = lookup(request.form.get('symbol'))
         shares = int(request.form.get('shares'))
 
         # get user's current cash available
@@ -99,20 +104,18 @@ def buy():
         price_all_shares = float("{:.2f}".format(symbol['price'] * shares))
 
         if current_user[0]['cash'] >= price_all_shares:
-            print('Purchased !')
             # create a new table inside finance.db
             # db.execute('CREATE TABLE IF NOT EXISTS trades (id INTEGER, user_id INTEGER NOT NULL, symbol TEXT NOT NULL, name TEXT NOT NULL, shares NUMERIC NOT NULL, price NUMERIC NOT NULL, total NUMERIC NOT NULL, type TEXT NOT NULL, time TIMESTAMP PRIMARY KEY(id)); CREATE UNIQUE INDEX  ON trades (id);')
-            # update current user cash 
+            # update current user cash
             db.execute('UPDATE users SET cash = ? WHERE id = ?', current_user[0]['cash'] - price_all_shares, current_user[0]['id'])
-            
-            # create the new transaction 
-            db.execute('INSERT INTO trades (user_id, symbol, name, shares, price, total, type) VALUES (?, ?, ?, ?, ?, ?, ?)', current_user[0]['id'], symbol['symbol'], symbol['name'], shares, symbol['price'], price_all_shares, 'buy')
-            return redirect('/')
 
+            # create the new transaction
+            db.execute('INSERT INTO trades (user_id, symbol, name, shares, price, total, type) VALUES (?, ?, ?, ?, ?, ?, ?)',
+                       current_user[0]['id'], symbol['symbol'], symbol['name'], shares, symbol['price'], price_all_shares, 'buy')
+            return redirect('/')
         else:
             print('Not enough money')
             return redirect('/')
-        
 
     else:
         return render_template('buy.html')
@@ -124,7 +127,6 @@ def history():
     """Show history of transactions"""
     # get current user trades' history
     current_user_trades = db.execute('SELECT * FROM trades WHERE user_id = ?', session["user_id"])
-
 
     # format prices to usd values
     for row in current_user_trades:
@@ -169,6 +171,7 @@ def login():
     else:
         return render_template("login.html")
 
+
 @app.route("/update", methods=["GET", "POST"])
 @login_required
 def update():
@@ -187,7 +190,7 @@ def update():
         # Ensure password was submitted
         elif not request.form.get("password-old"):
             return apology("must provide current password", 403)
-        
+
         # Ensure new password was submitted
         elif not request.form.get("password-new"):
             return apology("must provide a new password", 403)
@@ -206,7 +209,8 @@ def update():
         # Remember which user has logged in
         # session["user_id"] = rows[0]["id"]
         # update user password
-        db.execute('UPDATE users SET hash = ? WHERE username = ?', generate_password_hash(request.form.get('password-new')), request.form.get("username"))
+        db.execute('UPDATE users SET hash = ? WHERE username = ?', generate_password_hash(
+            request.form.get('password-new')), request.form.get("username"))
 
         # Logout user + redirect to home page
         return redirect("/logout")
@@ -215,7 +219,8 @@ def update():
     else:
         # get current username to personalize the update password form
         username = db.execute('SELECT username FROM users WHERE id = ?', session["user_id"])
-        return render_template("update.html", username = username[0]['username'])
+        return render_template("update.html", username=username[0]['username'])
+
 
 @app.route("/logout")
 def logout():
@@ -233,12 +238,17 @@ def logout():
 def quote():
     """Get stock quote."""
     if request.method == 'POST':
-        if not request.form.get('stock'):
-            return apology('missing symbol', 400)
+        if request.form.get('symbol'):
+            # checks if is a valid symbol
+            if not lookup(request.form.get('symbol')):
+                return apology('invalid symbol', 400)
+            else:
+                symbol = lookup(request.form.get('symbol'))
+
+                symbol['price'] = usd(symbol['price'])
+                return render_template('quoted.html', symbol=symbol)
         else:
-            symbol = lookup(request.form.get('stock'))
-            symbol['price'] = usd(symbol['price'])
-            return render_template('quoted.html', symbol = symbol)
+            return apology('missing symbol', 400)
     else:
         return render_template('quote.html')
 
@@ -249,16 +259,15 @@ def register():
     if request.method == 'POST':
         # check for username input
         if not request.form.get('username'):
-            return apology("must provide username", 403)
+            return apology("must provide username", 400)
 
         # check for username input
         if not request.form.get('password'):
-            return apology("must provide password", 403)
-        
+            return apology("must provide password", 400)
+
         # check for password match
-        if request.form.get('password') != request.form.get('password-confirmation'):
-            return apology("passwords do not match", 403)
-        
+        if request.form.get('password') != request.form.get('confirmation'):
+            return apology("passwords do not match", 400)
 
         # checks username in the db
         new_username = request.form.get('username')
@@ -267,7 +276,7 @@ def register():
         rows = db.execute('SELECT * FROM users WHERE username = ?', new_username)
 
         if len(rows) != 0:
-            return apology("username already exists", 403)
+            return apology("username already exists", 400)
         else:
             db.execute('INSERT INTO users(username, hash) VALUES (?,?)', new_username, generate_password_hash(new_password))
             return redirect('/login')
@@ -283,7 +292,8 @@ def sell():
     # get current user data
     current_user = db.execute('SELECT * FROM users WHERE id = ?', session["user_id"])
     # get current user stock
-    current_user_stocks = db.execute('SELECT symbol, name, SUM(shares) as shares, price, SUM(total) as total FROM trades WHERE user_id = ? GROUP BY name', session["user_id"])
+    current_user_stocks = db.execute(
+        'SELECT symbol, name, SUM(shares) as shares, price, SUM(total) as total FROM trades WHERE user_id = ? GROUP BY name', session["user_id"])
 
     if request.method == 'POST':
         # Ensure stock was choosed
@@ -292,7 +302,6 @@ def sell():
         # check user input for shares
         if not request.form.get('shares'):
             return apology('missing shares', 400)
-
 
         # get current price for choosed stock
         updated_price = lookup(request.form.get("symbol"))
@@ -305,26 +314,28 @@ def sell():
                     total_price_sale = updated_price['price'] * total_shares_to_sell
 
                     # update user data cash & available shares
-                    db.execute('UPDATE users SET cash = ? WHERE id = ?', current_user[0]['cash'] + total_price_sale, current_user[0]['id'])
+                    db.execute('UPDATE users SET cash = ? WHERE id = ?',
+                               current_user[0]['cash'] + total_price_sale, current_user[0]['id'])
 
-                    # create the new transaction 
-                    db.execute('INSERT INTO trades (user_id, symbol, name, shares, price, total, type) VALUES (?, ?, ?, ?, ?, ?, ?)', current_user[0]['id'], row['symbol'], row['name'], -total_shares_to_sell, row['price'], total_price_sale, 'sell')
+                    # create the new transaction
+                    db.execute('INSERT INTO trades (user_id, symbol, name, shares, price, total, type) VALUES (?, ?, ?, ?, ?, ?, ?)',
+                               current_user[0]['id'], row['symbol'], row['name'], -total_shares_to_sell, row['price'], total_price_sale, 'sell')
                     # db.execute('UPDATE trades SET shares = ? WHERE user_id = ? AND symbol = ?', symbol['shares'] - total_shares_to_sell, current_user[0]['id'])
 
                     return redirect('/')
                 else:
                     return apology('Not enough shares')
 
-            # update current user cash 
+            # update current user cash
             # db.execute('UPDATE users SET cash = ? WHERE id = ?', current_user[0]['cash'] - price_all_shares, current_user[0]['id'])
-            
-            # create the new transaction 
+
+            # create the new transaction
             # db.execute('INSERT INTO trades (user_id, symbol, name, shares, price, total, type) VALUES (?, ?, ?, ?, ?, ?, ?)', current_user[0]['id'], symbol['symbol'], symbol['name'], shares, symbol['price'], price_all_shares, 'buy')
 
         return apology('symbol not owned')
 
     else:
-        return render_template('sell.html', symbols = current_user_stocks)
+        return render_template('sell.html', symbols=current_user_stocks)
 
 
 def errorhandler(e):
