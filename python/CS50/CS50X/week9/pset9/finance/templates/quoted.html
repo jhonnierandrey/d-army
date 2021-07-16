@@ -1,0 +1,24 @@
+{% extends "layout.html" %}
+
+{% block title %}
+    Symbol Data
+{% endblock %}
+
+{% block main %}
+    <h1> {{ symbol['symbol'] }} </h1>
+    <hr />
+    <table class="table">
+        <thead>
+            <td>Name</td>
+            <td>Price</td>
+            <td>Symbol</td>
+        </thead>
+        <tbody>
+            <tr>
+                {% for value in symbol %}
+                    <td> {{ symbol[value] }} </td>
+                {% endfor %}
+            </tr>
+        </tbody>
+    </table>
+{% endblock %}

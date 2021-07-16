@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+
+<html lang="en">
+    <head>
+        <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@500&display=swap" rel="stylesheet">
+        <link href="styles.css" rel="stylesheet">
+        <title>Trivia!</title>
+
+        <script>
+
+            // TODO: Add code to check answers to questions
+            document.addEventListener('DOMContentLoaded', () => {
+
+                // Part 1 :
+
+                let partOneBtns = document.querySelectorAll('.btn-option');
+                let resultOne = document.querySelector('#result-p1');
+
+                // check if the answer is correct
+                function checkAnswer(e){
+                    e.target.style.color = "#FFFFFF";
+
+                    if (e.target.innerHTML == 'Alaska') {
+                        e.target.style.backgroundColor = "#00FF00";
+                        resultOne.innerText = 'Correct!'
+                    }else{
+                        e.target.style.backgroundColor = "#FF0000";
+                        resultOne.innerText = 'Incorrect'
+                    }
+                }
+
+                // Add the event listener to each button
+                for (let i = 0; i < partOneBtns.length; i++) {
+                    partOneBtns[i].addEventListener('click', checkAnswer);
+                }
+
+                // Part 2:
+                let input = document.querySelector('#free-response')
+                let btnInput = document.querySelector('#btn-input')
+                let resultTwo = document.querySelector('#result-p2');
+
+                function checkInput(){
+                    if(input.value == '1929'){
+                        input.style.backgroundColor = "#00FF00";
+                        resultTwo.innerText = 'Correct!'
+                    }else{
+                        input.style.backgroundColor = "#FF0000";
+                        resultTwo.innerText = 'Incorrect'
+                    }
+                }
+
+                btnInput.addEventListener('click', checkInput);
+
+            })
+
+        </script>
+
+    </head>
+    <body>
+
+        <div class="jumbotron">
+            <h1>Trivia!</h1>
+        </div>
+
+        <div class="container">
+
+            <div class="section">
+                <h2>Part 1: Multiple Choice </h2>
+                <hr>
+
+                <!-- TODO: Add multiple choice question here -->
+                <h3>What state is the largest state of the United States of America?</h3>
+                <p id="result-p1"></p>
+                <button class="btn-option">California</button>
+                <button class="btn-option">Alaska</button>
+                <button class="btn-option">Texas</button>
+                <button class="btn-option">Washington</button>
+                <button class="btn-option">Nevada</button>
+            </div>
+
+            <div class="section">
+                <h2>Part 2: Free Response</h2>
+                <hr>
+
+                <!-- TODO: Add free response question here -->
+                <h3>In what year did the Wall Street Crash take place?</h3>
+                <p id="result-p2"></p>
+                <input type="text" name="free-response" id="free-response" placeholder="Type your answer"><button id='btn-input'>Check Answer</button>
+            </div>
+
+        </div>
+    </body>
+</html>

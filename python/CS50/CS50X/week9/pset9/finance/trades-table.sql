@@ -1,0 +1,13 @@
+CREATE TABLE trades (
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    user_id INTEGER NOT NULL,
+    symbol TEXT NOT NULL,
+    name TEXT NOT NULL,
+    shares NUMERIC NOT NULL,
+    price NUMERIC NOT NULL,
+    total NUMERIC NOT NULL,
+    type TEXT NOT NULL,
+    time TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    FOREIGN KEY(user_id) REFERENCES users(id));
+
+CREATE UNIQUE INDEX  ON trades (id);
