@@ -1,0 +1,14 @@
+{% extends "encyclopedia/layout.html" %}
+
+{% block title %}
+    Not Found
+{% endblock %}
+
+{% block body %}
+    <h1>{{ entryTitle }}</h1>
+    <hr>
+    <div class="alert alert-danger" role="alert">
+        Wiki does not have an article with this name. Try a <a href="/random">random article</a> !
+    </div>
+
+{% endblock %}

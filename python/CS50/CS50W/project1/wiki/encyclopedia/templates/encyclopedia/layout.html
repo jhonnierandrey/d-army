@@ -1,0 +1,40 @@
+{% load static %}
+
+<!DOCTYPE html>
+
+<html lang="en">
+    <head>
+        <title>Wiki | {% block title %}{% endblock %}</title>
+        <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.0/dist/css/bootstrap.min.css" integrity="sha384-B0vP5xmATw1+K9KRQjQERJvTumQW0nPEzvF6L/Z6nronJ3oUOFUFpCjEUQouq2+l" crossorigin="anonymous">
+        <link rel="stylesheet" href="{% static 'encyclopedia/styles.css' %}">
+    </head>
+    <body>
+        <div class="row">
+            <div class="sidebar col-lg-2 col-md-3">
+                <h2>Wiki</h2>
+                <form action="/search">
+                    <input class="form-control search" type="text" name="q" placeholder="Search Encyclopedia">
+                    <hr>
+                </form>
+                <ul class="list-group list-group-flush">
+                    <li class="list-group-item">
+                        <a href="{% url 'index' %}">Home</a>
+                    </li>
+                    <li class="list-group-item">
+                        <a href="{% url 'newEntry' %}">Create New Page</a>
+                    </li>
+                    <li class="list-group-item">
+                        <a href="{% url 'random' %}">Random Page</a>
+                    </li>
+                </ul>
+                {% block nav %}
+                {% endblock %}
+            </div>
+            <div class="main col-lg-10 col-md-9">
+                {% block body %}
+                {% endblock %}
+            </div>
+        </div>
+
+    </body>
+</html>
