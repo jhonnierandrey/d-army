@@ -1,0 +1,127 @@
+{% extends "auctions/layout.html" %}
+
+{% block title %} {{ page_title }} {% endblock %}
+
+{% block body %}
+    {% if page_title == 'My watchlist' %}
+        <div class="main">
+            <section>
+                <h1>My watchlist</h1>
+                <hr>
+            </section>
+            <section>
+                {% if listings %}
+                    <div class="card-deck">
+                        {% for listing in listings %}
+                            <div class="card">
+                                <img src="{{listing.image}}" class="card-img-top" alt="" />
+                                <div class="card-body">
+                                    <h5 class="card-title">{{ listing.title }}</h5>
+                                    <p class="card-text">{{ listing.description }}</p>
+                                    {% if listing.currentBid %}
+                                        <p class="card-text">${{ listing.currentBid }}</p>
+                                    {% else %}
+                                        <p class="card-text">${{ listing.startingBid }}</p>
+                                    {% endif %}
+                                    <a href="{% url 'listing' listing.id %}" class="btn btn-primary">See more</a>
+                                </div>
+                            </div>
+                        {% endfor %}
+                    </div>
+                {% else %}
+                    <h5>Your watchlist is empty <i class="bi bi-emoji-frown"></i></h5>
+                {% endif %}
+            </section>
+        </div>
+    {% elif page_title == 'Categories' %}
+        <div class="main">
+            <section>
+                <h1>{{ category }}</h1>
+                <hr>
+            </section>
+            <section>
+                {% if listings %}
+                    <div class="card-deck">
+                        {% for listing in listings %}
+                            <div class="card">
+                                <img src="{{listing.image}}" class="card-img-top" alt="" />
+                                <div class="card-body">
+                                    <h5 class="card-title">{{ listing.title }}</h5>
+                                    <p class="card-text">{{ listing.description }}</p>
+                                    {% if listing.currentBid %}
+                                        <p class="card-text">${{ listing.currentBid }}</p>
+                                    {% else %}
+                                        <p class="card-text">${{ listing.startingBid }}</p>
+                                    {% endif %}
+                                    <a href="{% url 'listing' listing.id %}" class="btn btn-primary">See more</a>
+                                </div>
+                            </div>
+                        {% endfor %}
+                    </div>
+                {% else %}
+                    <h5>This category is empty <i class="bi bi-emoji-frown"></i></h5>
+                {% endif %}
+            </section>
+        </div>
+    {% elif page_title == 'Active Listings' %}
+        <div class="main">
+            <section>
+                <h1>Active Listings</h1>
+                <hr>
+            </section>
+            <section>
+                {% if listings %}
+                    <div class="card-deck">
+                        {% for listing in listings %}
+                            <div class="card">
+                                <img src="{{listing.image}}" class="card-img-top" alt="" />
+                                <div class="card-body">
+                                    <h5 class="card-title">{{ listing.title }}</h5>
+                                    <p class="card-text">{{ listing.description }}</p>
+                                    {% if listing.currentBid %}
+                                        <p class="card-text">${{ listing.currentBid }}</p>
+                                    {% else %}
+                                        <p class="card-text">${{ listing.startingBid }}</p>
+                                    {% endif %}
+                                    <a href="{% url 'listing' listing.id %}" class="btn btn-primary">See more</a>
+                                </div>
+                            </div>
+                        {% endfor %}
+                    </div>
+                {% else %}
+                    <h5>No active listing at the moment <i class="bi bi-emoji-frown"></i></h5>
+                {% endif %}
+            </section>
+        </div>
+    {% else %}
+        <div class="main">
+            <section>
+                <h1>Home</h1>
+                <hr>
+            </section>
+            <section>
+                {% if listings %}
+                    <div class="card-deck">
+                        {% for listing in listings %}
+                            <div class="card">
+                                <img src="{{listing.image}}" class="card-img-top" alt="" />
+                                <div class="card-body">
+                                    <h5 class="card-title">{{ listing.title }}</h5>
+                                    <p class="card-text">{{ listing.description }}</p>
+                                    {% if listing.currentBid %}
+                                        <p class="card-text">${{ listing.currentBid }}</p>
+                                    {% else %}
+                                        <p class="card-text">${{ listing.startingBid }}</p>
+                                    {% endif %}
+                                    <a href="{% url 'listing' listing.id %}" class="btn btn-primary">See more</a>
+                                </div>
+                            </div>
+                        {% endfor %}
+                    </div>
+                {% else %}
+                    <h5>No listing at the moment <i class="bi bi-emoji-frown"></i></h5>
+                {% endif %}
+            </section>
+        </div>
+    {% endif %}
+{% endblock %}

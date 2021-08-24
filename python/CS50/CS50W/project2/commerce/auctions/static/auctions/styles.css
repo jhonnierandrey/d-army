@@ -1,0 +1,47 @@
+* {
+    box-sizing: border-box;
+}
+
+/* Home */
+
+.main {
+    padding-top: 1rem;
+    min-height: 100vh;
+}
+
+.card-deck {
+
+}
+
+.card {
+    max-width: 18rem;
+    height: 25rem;
+}
+
+.card img {
+    width: 100%;
+    height: 50%;
+    object-fit: cover;
+}
+
+.listing-view {
+    max-width: 100%;
+    height: 100%;
+}
+
+.user-session {
+    padding: 0rem 1rem;
+    font-style: italic;
+}
+
+/* messages box */
+
+.msg-error {
+    padding: 1rem;
+    color: #FF0000;
+}
+
+.msg-success {
+    padding: 1rem;
+    color: #008000;
+}
