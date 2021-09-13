@@ -1,0 +1,36 @@
+@import url("https://cdn.jsdelivr.net/npm/bootstrap-icons@1.5.0/font/bootstrap-icons.css");
+
+textarea {
+    min-height: 400px;
+}
+
+.error-msg {
+    padding: 1rem;
+    color: #ff0000;
+    font-style: italic;
+}
+
+.mail-list {
+    
+}
+
+.mail-list ul {
+    list-style: none;
+    padding: 0rem;
+}
+
+.mail-list ul li {
+    display: flex;
+    justify-content: space-between;
+    padding: 0.5rem;
+    cursor: pointer;
+    border: 1px solid #000000;
+}
+
+.read-mail {
+    background-color: #d3d3d3;
+}
+
+.unread-mail {
+    background-color: #FFFFFF;
+}
