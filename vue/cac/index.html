@@ -11,6 +11,11 @@
 <body>
     <div id="root">
         <h1> {{ msg }} </h1>
+        <hr>
+        <p> {{framework + language}} </p>
+        <p> {{ details() }}</p>
+
+        <div v-html='htmlcontent'></div>
     </div>
     <script src="js/script.js"></script>
 </body>
