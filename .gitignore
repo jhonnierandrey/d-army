@@ -4,6 +4,7 @@
 .vscode
 docker/
 native/
+.tscache/
 
 # Ex
 /bin
