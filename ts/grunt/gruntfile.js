@@ -1,12 +1,15 @@
 module.exports = function(grunt){
     grunt.loadNpmTasks('grunt-ts');
 
-    grunt.initConfit({
+    grunt.initConfig({
         ts : {
             main : {
-                src : [],
-                dest: 'javascript/'
+                src : ['typescript/*.ts'],
+                // dest: 'javascript/'
+                out : 'javascript/main.js'
             }
         }
     })
+
+    grunt.registerTask('default', ['ts'])
 }
