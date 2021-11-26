@@ -1,0 +1,1 @@
+// Typescript main goal is in writing Safe Code whereas in ES6 is in writing Less Code.
